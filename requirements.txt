@@ -1,5 +1,5 @@
 nltk==3.5
+Flask==1.1.1
 joblib==0.14.1
 pandas==1.1.5
-Flask==1.1.1
 scikit_learn==0.24.1
