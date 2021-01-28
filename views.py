@@ -41,7 +41,9 @@ def result():
         corpus_lanc_stemmed = [stemmer.stem(word) for word in corpus_wo_stopwords]
         corpus_lanc_stemmed = ' '.join(corpus_lanc_stemmed)
         corpus_lanc_stemmed = [corpus_lanc_stemmed]
+        # return(str(corpus_lanc_stemmed))
         corpus_lanc_stemmed_transformed = vectorizer.transform(corpus_lanc_stemmed)
+        print(corpus_lanc_stemmed_transformed)
         return (str(corpus_lanc_stemmed_transformed))
     # else:
     #    return (request.form)
