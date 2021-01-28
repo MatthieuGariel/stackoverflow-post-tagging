@@ -14,15 +14,12 @@ import joblib
 from nltk import word_tokenize
 
 
-# df = pd.read_csv('data.csv', delimiter=',')
-# df.drop(df.columns[[0]], axis=1, inplace=True)
-
 # model = joblib.load("model_w_best_params.sav")
 # scaler_imported = joblib.load("scaler.sav")
 
 stop = stopwords.words('english')
 stemmer = LancasterStemmer()
-# vectorizer_imported = joblib.load("scaler.sav")
+vectorizer = joblib.load("tfidf_vectorizer")
 
 
 @app.route('/', methods=['GET'])
@@ -43,9 +40,8 @@ def result():
         corpus_wo_stopwords = [word.lower() for word in corpus_wo_stopwords]
         corpus_lanc_stemmed = [stemmer.stem(word) for word in corpus_wo_stopwords]
         corpus_lanc_stemmed = ' '.join(corpus_lanc_stemmed)
-        # corpus_lanc_stemmed_transformed = scaler_imported.transform(corpus_lanc_stemmed)
-        # print(corpus_lanc_stemmed)
-        return (str(corpus_lanc_stemmed))
+        corpus_lanc_stemmed_transformed = scaler_imported.transform(corpus_lanc_stemmed)
+        return (str(corpus_lanc_stemmed_transformed))
     # else:
     #    return (request.form)
 
