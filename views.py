@@ -6,6 +6,8 @@ from flask import render_template, request
 from flask import jsonify
 from nltk.stem import LancasterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
+from skmultilearn.problem_transform import BinaryRelevance
+from sklearn.linear_model import LogisticRegression
 
 import pandas as pd
 from nltk.corpus import stopwords
