@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from skmultilearn.problem_transform import BinaryRelevance
 from sklearn.linear_model import LogisticRegression
 
+import numpy as np
 import pandas as pd
 from nltk.corpus import stopwords
 import csv
@@ -22,6 +23,7 @@ from nltk import word_tokenize
 stop = stopwords.words('english')
 stemmer = LancasterStemmer()
 vectorizer = joblib.load("tfidf_vectorizer")
+BR_logreg = joblib.load("BR_logreg")
 
 
 @app.route('/', methods=['GET'])
@@ -46,7 +48,8 @@ def result():
         # return(str(corpus_lanc_stemmed))
         corpus_lanc_stemmed_transformed = vectorizer.transform(corpus_lanc_stemmed)
         # print(corpus_lanc_stemmed_transformed)
-        return (str(corpus_lanc_stemmed_transformed.toarray()))
+        # return (str(corpus_lanc_stemmed_transformed.toarray()))
+        return(str(np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(), 2)))
     # else:
     #    return (request.form)
 
