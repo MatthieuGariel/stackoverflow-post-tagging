@@ -16,14 +16,11 @@ import csv
 import joblib
 from nltk import word_tokenize
 
-
-# model = joblib.load("model_w_best_params.sav")
-# scaler_imported = joblib.load("scaler.sav")
-
 stop = stopwords.words('english')
 stemmer = LancasterStemmer()
 vectorizer = joblib.load("tfidf_vectorizer")
 BR_logreg = joblib.load("BR_logreg")
+tags = np.genfromtxt('tags.csv', dtype=str, delimiter=",")
 
 
 @app.route('/', methods=['GET'])
@@ -41,17 +38,13 @@ def result():
         corpus = [word.lower() for word in corpus]
         corpus_wo_stopwords = list(filter(lambda x: x not in stop, corpus))
         corpus_wo_stopwords = [i for i in corpus_wo_stopwords if i.isalpha()]
-        corpus_wo_stopwords = [word.lower() for word in corpus_wo_stopwords]
         corpus_lanc_stemmed = [stemmer.stem(word) for word in corpus_wo_stopwords]
         corpus_lanc_stemmed = ';'.join(corpus_lanc_stemmed)
         corpus_lanc_stemmed = [corpus_lanc_stemmed]
-        # return(str(corpus_lanc_stemmed))
         corpus_lanc_stemmed_transformed = vectorizer.transform(corpus_lanc_stemmed)
-        # print(corpus_lanc_stemmed_transformed)
-        # return (str(corpus_lanc_stemmed_transformed.toarray()))
-        return(str(np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(), 2)))
-    # else:
-    #    return (request.form)
+        # return(str((np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(),
+        # 2))[0]))
+        return(str(tags[(np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(), 2) > 0.01)[0]]))
 
 if __name__ == '__main__':
     app.run()
