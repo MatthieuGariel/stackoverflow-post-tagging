@@ -44,7 +44,7 @@ def result():
         corpus_lanc_stemmed_transformed = vectorizer.transform(corpus_lanc_stemmed)
         # return(str((np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(),
         # 2))[0]))
-        return(str(tags[(np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(), 2) > 0.0)[0]]))
+        return(str(tags[(np.round(BR_logreg.predict_proba(corpus_lanc_stemmed_transformed.toarray()).toarray(), 2) > 0.1)[0]]))
 
 if __name__ == '__main__':
     app.run()
